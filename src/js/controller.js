@@ -1,9 +1,9 @@
 import icons from '../img/icons.svg';
 
-import * as model from './model.js';
-import recipeView from './Views/recipeView.js';
-import searchView from './Views/searchView.js';
-import resultsView from './Views/resultsView.js';
+import * as model from './model';
+import recipeView from './Views/recipeView';
+import searchView from './Views/searchView';
+import resultsView from './Views/resultsView';
 import paginationView from './Views/paginationView';
 
 const recipeContainer = document.querySelector('.recipe');

@@ -1,5 +1,5 @@
-import { API_URL, REC_PER_PAGE } from './config.js';
-import { getJSON } from './helpers.js';
+import { API_URL, REC_PER_PAGE } from './config';
+import { getJSON } from './helpers';
 
 export class Recipe {
   constructor(data) {
