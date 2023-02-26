@@ -5,9 +5,10 @@ class PaginationView extends View {
   _parentElement = document.querySelector('.pagination');
 
   addHandlerPagination = handler => {
-    const btn = this._parentElement;
-    btn.addEventListener('click', e => {
-      handler(e);
+    this._parentElement.addEventListener('click', e => {
+      const btn = e.target.closest('.btn--inline');
+      if (!btn) return;
+      handler(+btn.dataset.goto);
     });
   };
 
@@ -20,7 +21,9 @@ class PaginationView extends View {
     // last page
     if (curPage === numPage && numPage > 1) {
       return `
-            <button class="btn--inline pagination__btn--prev">
+            <button data-goto="${
+              curPage - 1
+            }" class="btn--inline pagination__btn--prev">
                 <svg class="search__icon">
                 <use href="${icons}#icon-arrow-left"></use>
                 </svg>
@@ -30,7 +33,9 @@ class PaginationView extends View {
     // page 1 and others page
     else if (curPage === 1 && numPage > 1) {
       return `
-        <button class="btn--inline pagination__btn--next">
+        <button data-goto="${
+          curPage + 1
+        }" class="btn--inline pagination__btn--next">
             <span>Page ${curPage + 1}</span>
             <svg class="search__icon">
                 <use href="${icons}#icon-arrow-right"></use>
@@ -44,13 +49,17 @@ class PaginationView extends View {
     // other page
     else
       return `
-        <button class="btn--inline pagination__btn--prev">
+        <button data-goto="${
+          curPage - 1
+        }" class="btn--inline pagination__btn--prev">
             <svg class="search__icon">
               <use href="${icons}#icon-arrow-left"></use>
             </svg>
             <span>Page ${curPage - 1}</span>
         </button>
-        <button class="btn--inline pagination__btn--next">
+        <button data-goto="${
+          curPage + 1
+        }" class="btn--inline pagination__btn--next">
             <span>Page ${curPage + 1}</span>
             <svg class="search__icon">
               <use href="${icons}#icon-arrow-right"></use>

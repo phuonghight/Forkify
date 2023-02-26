@@ -41,36 +41,21 @@ const controlSearchResults = async () => {
     resultsView.render(model.getSearchResultsPage(model.state.search.page));
 
     paginationView.render(model.state.search);
-
-    paginationView.addHandlerPagination(controlPaginationSearchResults);
   } catch (error) {
     resultsView.renderError();
   }
 };
 
-const controlPaginationSearchResults = async e => {
-  if (e.target.closest('.pagination__btn--prev')) {
-    model.state.search.page--;
+const controlPaginationSearchResults = gotoPage => {
+  resultsView.render(model.getSearchResultsPage(gotoPage));
 
-    resultsView.render(model.getSearchResultsPage(model.state.search.page));
-
-    paginationView.render(model.state.search);
-
-    paginationView.addHandlerPagination(controlPaginationSearchResults);
-  } else if (e.target.closest('.pagination__btn--next')) {
-    model.state.search.page++;
-
-    resultsView.render(model.getSearchResultsPage(model.state.search.page));
-
-    paginationView.render(model.state.search);
-
-    paginationView.addHandlerPagination(controlPaginationSearchResults);
-  }
+  paginationView.render(model.state.search);
 };
 
 const init = () => {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerPagination(controlPaginationSearchResults);
 };
 
 init();
