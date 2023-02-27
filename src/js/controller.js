@@ -6,8 +6,6 @@ import searchView from './Views/searchView';
 import resultsView from './Views/resultsView';
 import paginationView from './Views/paginationView';
 
-const recipeContainer = document.querySelector('.recipe');
-
 // https://forkify-api.herokuapp.com/v2
 
 ///////////////////////////////////////
@@ -17,8 +15,9 @@ async function controlRecipes() {
     const id = window.location.hash.slice(1);
 
     if (!id) return;
-
     recipeView.renderSpinner();
+
+    resultsView.update(model.getSearchResultsPage());
 
     await model.loadRecipe(id);
     const { recipe } = model.state;
@@ -38,7 +37,7 @@ const controlSearchResults = async () => {
 
     await model.loadSearchResults(query);
 
-    resultsView.render(model.getSearchResultsPage(model.state.search.page));
+    resultsView.render(model.getSearchResultsPage());
 
     paginationView.render(model.state.search);
   } catch (error) {
@@ -57,7 +56,10 @@ const controlUpdateServings = newServings => {
   model.updateServings(newServings);
 
   // render
-  recipeView.render(model.state.recipe);
+  // recipeView.render(model.state.recipe);
+
+  // update
+  recipeView.update(model.state.recipe);
 };
 
 const init = () => {

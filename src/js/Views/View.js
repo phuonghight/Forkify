@@ -9,6 +9,24 @@ export default class View {
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  update = data => {
+    this._data = data;
+    const markup = this._generateMarkup();
+
+    const newDom = document.createRange().createContextualFragment(markup);
+    const newElements = [...newDom.querySelectorAll('*')];
+    const curElements = [...this._parentElement.querySelectorAll('*')];
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+      if (
+        !newEl.isEqualNode(curEl) 
+      ) {
+        curEl.innerHTML = newEl.innerHTML;
+      }
+    });
+  };
+
   _clear() {
     this._parentElement.innerHTML = '';
   }
@@ -21,7 +39,7 @@ export default class View {
         </svg>
       </div> 
     `;
-    
+
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }

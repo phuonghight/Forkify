@@ -4,12 +4,15 @@ import icons from 'url:../../img/icons.svg';
 class ResultsView extends View {
   _parentElement = document.querySelector('.results');
 
-  _generateMarkup = () => 
-    this._data
+  _generateMarkup = () => {
+    const id = window.location.hash.slice(1);
+    return this._data
       .map(
         rec => `
         <li class="preview">
-            <a class="preview__link" href="#${rec.id}">
+            <a class="preview__link ${
+              rec.id === id ? 'preview__link--active' : ''
+            }" href="#${rec.id}">
             <figure class="preview__fig">
                 <img src="${rec.img_url}" alt="Test" />
             </figure>
@@ -23,6 +26,7 @@ class ResultsView extends View {
     `
       )
       .join('');
+  };
 }
 
 export default new ResultsView();
