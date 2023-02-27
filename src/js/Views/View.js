@@ -19,9 +19,7 @@ export default class View {
 
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
-      if (
-        !newEl.isEqualNode(curEl) 
-      ) {
+      if (!newEl.isEqualNode(curEl)) {
         curEl.innerHTML = newEl.innerHTML;
       }
     });
@@ -43,6 +41,22 @@ export default class View {
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
+
+  renderMessage = message => {
+    const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+
+    this._clear();
+    this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  };
 
   renderError(message = 'No recipes found for your query. Please try again!') {
     const markup = `
