@@ -5,7 +5,7 @@ export class Recipe {
   constructor(data) {
     this.id = data.id;
     this.cookingTime = data.cooking_time;
-    this.img = data.image_url;
+    this.image_url = data.image_url;
     this.ingredients = data.ingredients;
     this.publisher = data.publisher;
     this.servings = data.servings;
@@ -46,12 +46,13 @@ export const loadSearchResults = async query => {
     state.search.query = query;
     const { data } = await getJSON(`${API_URL}?search=${query}`);
 
-    if (data.recipes.length == 0) throw new Error();
+    if (data.recipes.length == 0)
+      throw new Error('No recipes found for your query. Please try again!');
 
     state.search.results = data.recipes.map(rec => {
       return {
         id: rec.id,
-        img_url: rec.image_url,
+        image_url: rec.image_url,
         publisher: rec.publisher,
         title: rec.title,
       };
@@ -85,5 +86,9 @@ export const addBookmark = recipe => {
 
 export const deleteBookmark = recipe => {
   state.recipe.bookmarked = false;
-  state.bookmarks.splice(state.bookmarks.indexOf(recipe) - 1, 1);
+  const pos = state.bookmarks.indexOf(
+    state.bookmarks.find(bookmark => bookmark.id === recipe.id)
+  );
+  state.bookmarks.splice(pos, 1);
+  console.log(state.bookmarks.length);
 };
