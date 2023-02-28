@@ -49,6 +49,8 @@ export const loadSearchResults = async query => {
         title: rec.title,
       };
     });
+
+    state.search.page = 1;
   } catch (error) {
     throw error;
   }
