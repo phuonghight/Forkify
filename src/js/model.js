@@ -22,6 +22,7 @@ export const state = {
     page: 1,
     resultsPage: REC_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -31,6 +32,12 @@ export const loadRecipe = async function (id) {
     const { data } = await getJSON(urlAPI);
 
     state.recipe = new Recipe(data.recipe);
+
+    if (state.bookmarks.some(bookmark => bookmark.id === id))
+      state.recipe.bookmarked = true;
+    else state.recipe.bookmarked = false;
+
+    return state.recipe;
   } catch (error) {}
 };
 
@@ -69,4 +76,14 @@ export const updateServings = newServings => {
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
   state.recipe.servings = newServings;
+};
+
+export const addBookmark = recipe => {
+  state.recipe.bookmarked = true;
+  state.bookmarks.push(recipe);
+};
+
+export const deleteBookmark = recipe => {
+  state.recipe.bookmarked = false;
+  state.bookmarks.splice(state.bookmarks.indexOf(recipe) - 1, 1);
 };
