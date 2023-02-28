@@ -1,5 +1,3 @@
-import icons from '../img/icons.svg';
-
 import * as model from './model';
 import recipeView from './Views/recipeView';
 import searchView from './Views/searchView';
