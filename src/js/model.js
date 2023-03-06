@@ -1,5 +1,5 @@
 import { API_URL, KEY, REC_PER_PAGE } from './config';
-import { getJSON, sendJSON } from './helpers';
+import { AJAX } from './helpers';
 
 export class Recipe {
   constructor(data) {
@@ -42,7 +42,7 @@ export const state = {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
     state.recipe = new Recipe(data.data.recipe);
 
     if (state.bookmarks.some(bookmark => bookmark.id === id))
@@ -56,7 +56,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async query => {
   try {
     state.search.query = query;
-    const { data } = await getJSON(`${API_URL}?search=${query}`);
+    const { data } = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
 
     if (data.recipes.length == 0)
       throw new Error('No recipes found for your query. Please try again!');
@@ -145,7 +145,7 @@ export const uploadRecipe = async newRecipe => {
 
     const recipe = new Recipe({ ...newRecipe, ingredients });
 
-    const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
     state.recipe = new Recipe(data.data.recipe);
     addBookmark(state.recipe);
   } catch (error) {
