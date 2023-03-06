@@ -67,6 +67,7 @@ export const loadSearchResults = async query => {
         image_url: rec.image_url,
         publisher: rec.publisher,
         title: rec.title,
+        ...(rec.key && { key: rec.key }),
       };
     });
 

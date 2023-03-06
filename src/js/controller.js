@@ -21,7 +21,6 @@ async function controlRecipes() {
     bookmarksView.render(model.state.bookmarks);
 
     const recipe = await model.loadRecipe(id);
-    console.log(recipe);
 
     recipeView.render(recipe);
   } catch (error) {
