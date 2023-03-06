@@ -21,7 +21,6 @@ async function controlRecipes() {
     bookmarksView.render(model.state.bookmarks);
 
     const recipe = await model.loadRecipe(id);
-    // const { recipe } = model.state;
     console.log(recipe);
 
     recipeView.render(recipe);
@@ -87,6 +86,15 @@ const controlBookmarks = () => {
   else bookmarksView.render(model.state.bookmarks);
 };
 
+const controlAddRecipe = async newRecipe => {
+  try {
+    await model.uploadRecipe(newRecipe);
+  } catch (error) {
+    console.error('🎈', error);
+    addRecipeView.renderError('vcl');
+  }
+};
+
 const init = () => {
   bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
@@ -94,5 +102,6 @@ const init = () => {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerPagination(controlPaginationSearchResults);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();
