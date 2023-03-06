@@ -11,6 +11,7 @@ export class Recipe {
     this.servings = +data.servings;
     this.source_url = data.source_url;
     this.title = data.title;
+    if (data.key) this.key = data.key;
   }
 }
 const createRecipeObject = function (data) {
@@ -119,7 +120,7 @@ init();
 const clearBookmarks = () => {
   localStorage.clear('bookmarks');
 };
-clearBookmarks();
+// clearBookmarks();
 
 export const uploadRecipe = async newRecipe => {
   try {
@@ -143,10 +144,10 @@ export const uploadRecipe = async newRecipe => {
     // };
 
     const recipe = new Recipe({ ...newRecipe, ingredients });
-    console.log(recipe);
 
     const data = await sendJSON(`${API_URL}?key=${KEY}`, recipe);
-    console.log(data);
+    state.recipe = new Recipe(data.data.recipe);
+    addBookmark(state.recipe);
   } catch (error) {
     throw error;
   }
